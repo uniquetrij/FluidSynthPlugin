@@ -83,9 +83,10 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
 
     - name: Upload Build Artifacts
+      if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3
+        name: FluidSynthPlugin.vst3.linux
         path: build/FluidSynthPlugin.vst3
 
   release:
@@ -100,13 +101,13 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3
+        name: FluidSynthPlugin.vst3.linux
         path: build/FluidSynthPlugin.vst3
 
     - name: Zip Build Artifacts
       run: |
         cd build
-        zip -r ../FluidSynthPlugin.vst3.zip ./FluidSynthPlugin.vst3
+        zip -r ../FluidSynthPlugin.vst3.linux.zip ./FluidSynthPlugin.vst3
 
     - name: Create GitHub Release
       id: create_release
@@ -117,7 +118,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: FluidSynthPlugin.vst3.zip
+        files: FluidSynthPlugin.vst3.linux.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
