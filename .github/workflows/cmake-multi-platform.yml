@@ -48,6 +48,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: dependencies
+      if: runner.os == 'Linux'
       shell: bash
       run: |
         sudo apt update && 
@@ -58,20 +59,11 @@ jobs:
                             texlive-latex-extra
 
     - name: Program Files
+      if: runner.os == 'Linux'
       shell: bash
       run: |
         sudo mkdir /Program\ Files
         sudo chmod 777 /Program\ Files -R
-        mkdir -p /Program\ Files/DoxyGen
-        
-    - name: Doxygen
-      shell: bash
-      run: |
-         wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz
-         tar -zxvf doxygen-1.13.2.linux.bin.tar.gz -C /Program\ Files/DoxyGen
-         mv /Program\ Files/DoxyGen/doxygen-1.13.2 /Program\ Files/DoxyGen/doxygen
-         sudo chmod 777 /Program\ Files -R
-         rm doxygen-1.13.2.linux.bin.tar.gz
         
     - name: JUCE
       shell: bash
