@@ -22,11 +22,11 @@ jobs:
         build_type: [Release]
         c_compiler: [gcc, cl]
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             c_compiler: gcc
             cpp_compiler: g++
         exclude:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             c_compiler: cl
 
     steps:
