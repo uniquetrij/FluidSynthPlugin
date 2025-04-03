@@ -53,7 +53,9 @@ jobs:
         sudo apt update && 
         sudo apt install -y fluidsynth libasound2-dev libx11-dev \
                             libxext-dev libtiff-dev libfreetype-dev \
-                            libfontconfig1-dev
+                            libfontconfig1-dev doxygen texlive-latex-base \
+                            texlive-fonts-recommended texlive-fonts-extra \
+                            texlive-latex-extra
 
     - name: Program Files
       shell: bash
