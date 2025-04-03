@@ -52,10 +52,15 @@ jobs:
       run: |
         sudo apt update && sudo apt install -y fluidsynth libasound2-dev libx11-dev libxext-dev libtiff-dev libfreetype-dev libfontconfig1-dev
 
+    - name: Doxygen
+      shell: bash
+      run: |
+        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz && tar -zxvf -C /Program\ Files/ && ls
+        
     - name: JUCE
       shell: bash
       run: |
-        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
+        git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
