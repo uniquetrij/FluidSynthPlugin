@@ -50,7 +50,7 @@ jobs:
     - name: dependencies
       shell: bash
       run: |
-        sudo apt update && sudo apt install -y fluidsynth libasound2-dev libx11-dev
+        sudo apt update && sudo apt install -y fluidsynth libasound2-dev libx11-dev libxext-dev
 
     - name: JUCE
       shell: bash
