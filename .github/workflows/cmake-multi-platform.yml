@@ -55,7 +55,7 @@ jobs:
     - name: Doxygen
       shell: bash
       run: |
-        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz && tar -zxvf -C /Program\ Files/ && ls
+        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz && tar -zxvf doxygen-1.13.2.linux.bin.tar.gz -C /Program\ Files/ && ls
         
     - name: JUCE
       shell: bash
