@@ -85,8 +85,8 @@ jobs:
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: build-artifacts
-        path: build/
+        name: FluidSynthPlugin.vst3
+        path: build/FluidSynthPlugin.vst3
 
   release:
     name: Create GitHub Release
@@ -100,13 +100,13 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: build-artifacts
-        path: build/
+        name: FluidSynthPlugin.vst3
+        path: build/FluidSynthPlugin.vst3
 
     - name: Zip Build Artifacts
       run: |
         cd build
-        zip -r ../artifacts.zip ./FluidSynthPlugin.vst3
+        zip -r ../FluidSynthPlugin.vst3.zip ./FluidSynthPlugin.vst3
 
     - name: Create GitHub Release
       id: create_release
@@ -117,7 +117,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: build/artifacts.zip  # Upload build artifacts
+        files: FluidSynthPlugin.vst3.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
