@@ -50,7 +50,7 @@ jobs:
     - name: dependencies
       shell: bash
       run: |
-        sudo apt install -y fluidsynth alsa
+        sudo apt update && sudo apt install -y fluidsynth libasound2-dev
 
     - name: JUCE
       shell: bash
