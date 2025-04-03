@@ -50,12 +50,25 @@ jobs:
     - name: dependencies
       shell: bash
       run: |
-        sudo apt update && sudo apt install -y fluidsynth libasound2-dev libx11-dev libxext-dev libtiff-dev libfreetype-dev libfontconfig1-dev
+        sudo apt update && 
+        sudo apt install -y fluidsynth libasound2-dev libx11-dev 
+                            libxext-dev libtiff-dev libfreetype-dev 
+                            libfontconfig1-dev
 
+    - name: Program Files
+      shell: bash
+      run: |
+        sudo mkdir /Program\ Files && 
+        sudo chmod 777 /Program\ Files && 
+        mkdir -p /Program\ Files/Doxygen
+        
     - name: Doxygen
       shell: bash
       run: |
-        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz && tar -zxvf doxygen-1.13.2.linux.bin.tar.gz -C /Program\ Files/ && ls
+         wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz && 
+         tar -zxvf doxygen-1.13.2.linux.bin.tar.gz -C /Program\ Files/Doxygen && 
+         mv /Program\ Files/Doxygen/doxygen-1.13.2 /Program\ Files/Doxygen/doxygen &&
+         rm doxygen-1.13.2.linux.bin.tar.gz
         
     - name: JUCE
       shell: bash
