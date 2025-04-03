@@ -47,6 +47,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: dependencies
+      shell: bash
+      run: |
+        sudo apt install -y fluidsynth alsa
+
     - name: JUCE
       shell: bash
       run: |
