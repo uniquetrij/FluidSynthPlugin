@@ -91,3 +91,37 @@ jobs:
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
+
+  release:
+    name: Create GitHub Release
+    needs: build 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Download Build Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-artifacts
+        path: build/
+
+    - name: Zip Build Artifacts
+      run: |
+        cd build
+        zip -r ../artifacts.zip ./FluidSynthPlugin.vst3
+
+    - name: Create GitHub Release
+      id: create_release
+      uses: softprops/action-gh-release@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        files: build/artifacts.zip  # Upload build artifacts
+
+    - name: Show Release URL
+      run: echo "Release created at ${{ steps.create_release.outputs.url }}"
