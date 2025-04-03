@@ -50,7 +50,7 @@ jobs:
     - name: JUCE
       shell: bash
       run: |
-        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && git clone https://github.com/juce-framework/JUCE /Program\ Files && ls /Program\ Files/JUCE/modules 
+        sudo mkdir /Program\ Files && sudo chmod 777 /Program\ Files && git clone https://github.com/juce-framework/JUCE /Program\ Files && ls /Program\ Files
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
