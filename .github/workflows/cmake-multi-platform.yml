@@ -60,14 +60,14 @@ jobs:
       run: |
         sudo mkdir /Program\ Files
         sudo chmod 777 /Program\ Files
-        mkdir -p /Program\ Files/Doxygen
+        mkdir -p /Program\ Files/DoxyGen
         
     - name: Doxygen
       shell: bash
       run: |
          wget https://www.doxygen.nl/files/doxygen-1.13.2.linux.bin.tar.gz
-         tar -zxvf doxygen-1.13.2.linux.bin.tar.gz -C /Program\ Files/Doxygen
-         mv /Program\ Files/Doxygen/doxygen-1.13.2 /Program\ Files/Doxygen/doxygen
+         tar -zxvf doxygen-1.13.2.linux.bin.tar.gz -C /Program\ Files/DoxyGen
+         mv /Program\ Files/DoxyGen/doxygen-1.13.2 /Program\ Files/DoxyGen/doxygen
          rm doxygen-1.13.2.linux.bin.tar.gz
         
     - name: JUCE
