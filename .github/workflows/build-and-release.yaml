@@ -120,7 +120,7 @@ jobs:
 
     strategy:
       matrix:
-        value: ${{fromJSON(needs.setup.outputs.matrix)}}
+        value: ${{ fromJSON(needs.setup.outputs.matrix) }}
     steps:
       - run: |
           echo "${{ matrix.value }}"
