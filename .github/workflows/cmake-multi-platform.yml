@@ -112,7 +112,7 @@ jobs:
     steps:
     - name: Verify
       shell: bash
-      run: echo ${{ BUILD_OS }}
+      run: echo "$BUILD_OS"
       
     # - name: Checkout Repository
     #   uses: actions/checkout@v4
