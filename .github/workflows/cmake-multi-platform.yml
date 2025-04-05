@@ -117,6 +117,12 @@ jobs:
         name: FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
         path: ./dist
 
+    - name: test
+      shell: bash
+      run: |
+        ls .
+        ls ./dist
+
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
