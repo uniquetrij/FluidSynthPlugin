@@ -32,13 +32,22 @@ jobs:
     - name: Install APT Dependencies
       if: runner.os == 'Linux'
       shell: bash
-      run: |
-        sudo apt update
-        sudo apt install -y fluidsynth graphviz libasound2-dev libx11-dev \
-                            libxext-dev libtiff-dev libfreetype-dev \
-                            libfontconfig1-dev doxygen texlive-latex-base \
-                            texlive-fonts-recommended texlive-fonts-extra \
-                            texlive-latex-extra 
+    - run: sudo apt update
+    - run: >
+         apt install -y 
+         fluidsynth 
+         libasound2-dev 
+         libx11-dev
+         libxext-dev 
+         libtiff-dev 
+         libfreetype-dev 
+         libfontconfig1-dev 
+         texlive-latex-base 
+         texlive-fonts-recommended 
+         texlive-fonts-extra 
+         texlive-latex-extra 
+         doxygen
+         graphviz
         
     - name: Install JUCE
       shell: bash
