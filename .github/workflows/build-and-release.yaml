@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
+      os: ${{ steps.matrix.outputs.os }}
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
@@ -94,9 +94,9 @@ jobs:
 
     - id: matrix
       run: |
-        echo "value=[\"os:${{ matrix.os }}\"]" >> $GITHUB_OUTPUT
+        echo "os=[\"${{ matrix.os }}\"]" >> $GITHUB_OUTPUT
     - run: |
-        echo "${{ steps.matrix.outputs.value }}"
+        echo "${{ steps.matrix.outputs.os }}"
 
     - name: _Touch
       shell: bash
@@ -120,10 +120,9 @@ jobs:
 
     strategy:
       matrix:
-        value: ${{ fromJSON(needs.build.outputs.matrix) }}
+        os: ${{ fromJSON(needs.build.outputs.os) }}
     steps:
       - run: |
-          echo "${{ matrix.value }}"
           echo "${{ matrix.os }}"
 
       # - name: Checkout Repository
