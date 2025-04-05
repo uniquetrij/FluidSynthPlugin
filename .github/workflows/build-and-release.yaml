@@ -47,6 +47,7 @@ jobs:
     - name: Archive Release
       shell: bash 
       run: |
+        for dir in ./dist/*/; do tar -czf "${dir%/}.tar.gz" -C "$(dirname "$dir")" "$(basename "$dir")"; done
         for dir in ./dist/*/; do zip -r "${dir%/}.zip" "$dir"; done
         ls ./dist/
 
