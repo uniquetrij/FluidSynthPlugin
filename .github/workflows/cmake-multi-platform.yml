@@ -41,7 +41,7 @@ jobs:
                             libxext-dev libtiff-dev libfreetype-dev \
                             libfontconfig1-dev doxygen texlive-latex-base \
                             texlive-fonts-recommended texlive-fonts-extra \
-                            texlive-latex-extra
+                            texlive-latex-extra graphviz
         
     - name: Install JUCE
       shell: bash
