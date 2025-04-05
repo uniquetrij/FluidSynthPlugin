@@ -99,8 +99,18 @@ jobs:
     - name: Archive Release
       shell: bash 
       run: |
-        for dir in ./dist/*/; do tar -czf "${dir%/}.tar.gz" -C "$(dirname "$dir")" "$(basename "$dir")"; done
-        for dir in ./dist/*/; do zip -r "${dir%/}.zip" "$dir/*"; done
+        for dir in ./dist/*/; do 
+          tmpdir=$(mktemp -d) 
+          cp -r "$dir" "$tmpdir/FluidSynthPlugin.vst3" 
+          tar -czf "${dir%/}.tar.gz" -C "$tmpdir" FluidSynthPlugin.vst3 
+          rm -rf "$tmpdir" 
+        done
+        for dir in ./dist/*/; do 
+          tmpdir=$(mktemp -d) 
+          cp -r "$dir" "$tmpdir/FluidSynthPlugin.vst3" 
+          (cd "$tmpdir" && zip -r "${OLDPWD}/${dir%/}.zip" FluidSynthPlugin.vst3) 
+          rm -rf "$tmpdir" 
+        done
         ls ./dist/
 
     - name: Get latest tag or use default
