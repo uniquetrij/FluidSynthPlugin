@@ -11,24 +11,67 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-22.04]
+        build_type: [Release]
+        c_compiler: [gcc]
+        include:
+          - os: ubuntu-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-22.04
+            c_compiler: gcc
+            cpp_compiler: g++
+        # exclude:
+        #   - os: ubuntu-22.04
+        #     c_compiler: cl
         
     runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Touch
+    - name: Install APT Dependencies
+      if: runner.os == 'Linux'
       shell: bash
       run: |
-        mkdir -p ./dist/FluidSynthPlugin.vst3.${{ matrix.os }} 
-        touch ./dist/FluidSynthPlugin.vst3.${{ matrix.os }}/hello-${{ matrix.os }}.text
+        sudo apt update
+        sudo apt install -y fluidsynth graphviz libasound2-dev libx11-dev \
+                            libxext-dev libtiff-dev libfreetype-dev \
+                            libfontconfig1-dev doxygen texlive-latex-base \
+                            texlive-fonts-recommended texlive-fonts-extra \
+                            texlive-latex-extra 
+        
+    - name: Install JUCE
+      shell: bash
+      run: |
+        sudo mkdir /Program\ Files
+        sudo chmod 777 /Program\ Files -R
+        git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
+
+    - name: Configure CMake
+      run: >
+        cmake -B ./build
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -S ${{ github.workspace }}/buildSetup
+
+    - name: Build
+      run: cmake --build ${{ steps.variables.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+    - name: Test
+      working-directory: ${{ steps.variables.outputs.build-output-dir }}
+      run: ctest --build-config ${{ matrix.build_type }}
+
+    - name: Install
+      shell: bash
+      run: cmake --install ./build --config Release
 
     - name: Upload Built Artifact
       if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4
       with:
         name: FluidSynthPlugin.vst3.${{ matrix.os }}
-        path: ./dist/FluidSynthPlugin.vst3.${{ matrix.os }}
+        path: ./_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
         retention-days: 7
     
 ########################################################################################################################
@@ -87,4 +130,4 @@ jobs:
         files: ./dist/*
 
     - name: Show Release URL
-      run: echo "Release created at ${{ steps.elease.outputs.url }}"
+      run: echo "Release created at ${{ steps.release.outputs.url }}"
