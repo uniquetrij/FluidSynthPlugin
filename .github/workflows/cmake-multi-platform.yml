@@ -139,7 +139,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ./dist/FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
+        files: FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
