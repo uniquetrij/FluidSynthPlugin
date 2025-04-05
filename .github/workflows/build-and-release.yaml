@@ -117,48 +117,47 @@ jobs:
     name: Create GitHub Release
     needs: build 
     runs-on: ubuntu-latest
-    env:
-      BUILD_OS: ${{ needs.build.outputs.build-os }}
 
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     os: [ubuntu-latest, ubuntu-22.04]
+    strategy:
+      matrix:
+        value: ${{fromJSON(needs.setup.outputs.matrix)}}
+    steps:
+      - run: |
+          echo "${{ matrix.value }}"
 
-    steps:      
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-
-    - name: Download Build Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: FluidSynthPlugin.vst3.*
-        path: ./dist
-
-    - name: _LS
-      shell: bash
-      run: |
-        ls .
-        echo '==='
-        ls ./dist
-
-    # - name: Archive Release
-    #   uses: thedoctor0/zip-release@0.7.5
-    #   with:
-    #     type: 'zip'
-    #     path: './dist/*'
-    #     filename: 'FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip'
-        
-    # - name: Create GitHub Release
-    #   id: create_release
-    #   uses: softprops/action-gh-release@v2
-    #   with:
-    #     token: ${{ secrets.GITHUB_TOKEN }}
-    #     tag_name: ${{ github.ref_name }}
-    #     release_name: Release ${{ github.ref_name }}
-    #     draft: false
-    #     prerelease: false
-    #     files: FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
-
-    # - name: Show Release URL
-    #   run: echo "Release created at ${{ steps.create_release.outputs.url }}"
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+  
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: FluidSynthPlugin.vst3.*
+          path: ./dist
+  
+      - name: _LS
+        shell: bash
+        run: |
+          ls .
+          echo '==='
+          ls ./dist
+  
+      # - name: Archive Release
+      #   uses: thedoctor0/zip-release@0.7.5
+      #   with:
+      #     type: 'zip'
+      #     path: './dist/*'
+      #     filename: 'FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip'
+          
+      # - name: Create GitHub Release
+      #   id: create_release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag_name: ${{ github.ref_name }}
+      #     release_name: Release ${{ github.ref_name }}
+      #     draft: false
+      #     prerelease: false
+      #     files: FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
+  
+      # - name: Show Release URL
+      #   run: echo "Release created at ${{ steps.create_release.outputs.url }}"
