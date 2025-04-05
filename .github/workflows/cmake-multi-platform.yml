@@ -58,7 +58,7 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-        echo "build_os=${{ matrix.os }}" >> "$GITHUB_OUTPUT"
+        echo "build-os=${{ matrix.os }}" >> "$GITHUB_OUTPUT"
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -103,7 +103,7 @@ jobs:
     needs: build 
     runs-on: ubuntu-latest
     env:
-      build_os: ${{ needs.build.outputs.build_os }}
+      BUILD_OS: ${{ needs.build.outputs.build_os }}
 
     steps:
     - name: Checkout Repository
@@ -112,7 +112,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.${{ build_os }}.zip
+        name: FluidSynthPlugin.vst3.${{ BUILD_OS }}.zip
         path: ./
         
     - name: Create GitHub Release
@@ -124,7 +124,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ./FluidSynthPlugin.vst3.${{ build_os }}.zip
+        files: ./FluidSynthPlugin.vst3.${{ BUILD_OS }}.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
