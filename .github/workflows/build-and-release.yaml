@@ -48,7 +48,7 @@ jobs:
       shell: bash 
       run: |
         for dir in ./dist/*/; do zip -r "${dir%/}.zip" "$dir"; done
-        ls
+        ls ./dist/
 
     # - name: Create GitHub Release
     #   id: create_release
