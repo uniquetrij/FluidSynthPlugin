@@ -114,7 +114,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.${{ BUILD_OS }}.zip
+        name: FluidSynthPlugin.vst3.$BUILD_OS.zip
         path: ./
         
     - name: Create GitHub Release
@@ -126,7 +126,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ./FluidSynthPlugin.vst3.${{ BUILD_OS }}.zip
+        files: ./FluidSynthPlugin.vst3.$BUILD_OS.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
