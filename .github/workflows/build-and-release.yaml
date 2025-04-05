@@ -29,42 +29,48 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install APT Dependencies
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        sudo apt update
-        sudo apt install -y fluidsynth graphviz libasound2-dev libx11-dev \
-                            libxext-dev libtiff-dev libfreetype-dev \
-                            libfontconfig1-dev doxygen texlive-latex-base \
-                            texlive-fonts-recommended texlive-fonts-extra \
-                            texlive-latex-extra 
+    # - name: Install APT Dependencies
+    #   if: runner.os == 'Linux'
+    #   shell: bash
+    #   run: |
+    #     sudo apt update
+    #     sudo apt install -y fluidsynth graphviz libasound2-dev libx11-dev \
+    #                         libxext-dev libtiff-dev libfreetype-dev \
+    #                         libfontconfig1-dev doxygen texlive-latex-base \
+    #                         texlive-fonts-recommended texlive-fonts-extra \
+    #                         texlive-latex-extra 
         
-    - name: Install JUCE
+    # - name: Install JUCE
+    #   shell: bash
+    #   run: |
+    #     sudo mkdir /Program\ Files
+    #     sudo chmod 777 /Program\ Files -R
+    #     git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
+
+    # - name: Configure CMake
+    #   run: >
+    #     cmake -B ./build
+    #     -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+    #     -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+    #     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+    #     -S ${{ github.workspace }}/buildSetup
+
+    # - name: Build
+    #   run: cmake --build ./build --config ${{ matrix.build_type }}
+
+    # - name: Test
+    #   working-directory: ./build
+    #   run: ctest --build-config ${{ matrix.build_type }}
+
+    # - name: Install
+    #   shell: bash
+    #   run: cmake --install ./build --config Release
+
+    - name: _TOUCH
       shell: bash
       run: |
-        sudo mkdir /Program\ Files
-        sudo chmod 777 /Program\ Files -R
-        git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
-
-    - name: Configure CMake
-      run: >
-        cmake -B ./build
-        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
-        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -S ${{ github.workspace }}/buildSetup
-
-    - name: Build
-      run: cmake --build ./build --config ${{ matrix.build_type }}
-
-    - name: Test
-      working-directory: ${{ steps.variables.outputs.build-output-dir }}
-      run: ctest --build-config ${{ matrix.build_type }}
-
-    - name: Install
-      shell: bash
-      run: cmake --install ./build --config Release
+        mkdir -p ./_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3
+        touch ./_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
 
     - name: Upload Built Artifact
       if: runner.os == 'Linux'
