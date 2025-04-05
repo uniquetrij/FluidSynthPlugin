@@ -85,19 +85,19 @@ jobs:
       shell: bash
       run: cmake --install ./build --config Release
 
-    - name: Archive Release
-      uses: thedoctor0/zip-release@0.7.5
-      with:
-        type: 'zip'
-        path: './_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3'
-        filename: 'FluidSynthPlugin.vst3.zip'
+    # - name: Archive Release
+    #   uses: thedoctor0/zip-release@0.7.5
+    #   with:
+    #     type: 'zip'
+    #     path: './_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3'
+    #     filename: 'FluidSynthPlugin.vst3.zip'
       
     - name: Upload Build Artifacts
       if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.${{ matrix.os }}
-        path: ./FluidSynthPlugin.vst3.zip
+        name: FluidSynthPlugin.vst3.${{ matrix.os }}.zip
+        path: ./_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
     
 ########################################################################################################################
 
