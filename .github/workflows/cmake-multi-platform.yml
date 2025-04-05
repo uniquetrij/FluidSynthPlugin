@@ -114,10 +114,10 @@ jobs:
     env:
       BUILD_OS: ${{ needs.build.outputs.build-os }}
 
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, ubuntu-22.04]
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     os: [ubuntu-latest, ubuntu-22.04]
 
     steps:      
     - name: Checkout Repository
@@ -126,7 +126,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.${{ matrix.os }}
+        name: FluidSynthPlugin.vst3.*
         path: ./dist
 
     - name: _LS
