@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    name: Run ${{ join(matrix.*, ' - ') }} - ${{ github.event_name }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -88,7 +89,7 @@ jobs:
       uses: thedoctor0/zip-release@0.7.5
       with:
         type: 'zip'
-        path: _DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
+        path: './_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3'
         filename: 'FluidSynthPlugin.vst3.zip'
       
     - name: Upload Build Artifacts
