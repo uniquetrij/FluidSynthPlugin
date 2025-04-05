@@ -103,7 +103,7 @@ jobs:
     needs: build 
     runs-on: ubuntu-latest
     env:
-      build_os: ${{ needs.check-pr.outputs.build_os }}
+      build_os: ${{ needs.build.outputs.build_os }}
 
     steps:
     - name: Checkout Repository
