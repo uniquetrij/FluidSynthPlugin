@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    outputs:
+      build-os: ${{ steps.strings.outputs.build-os }}
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
@@ -103,7 +105,7 @@ jobs:
     needs: build 
     runs-on: ubuntu-latest
     env:
-      BUILD_OS: ${{ needs.build.outputs.build_os }}
+      BUILD_OS: ${{ needs.build.outputs.build-os }}
 
     steps:
     - name: Checkout Repository
