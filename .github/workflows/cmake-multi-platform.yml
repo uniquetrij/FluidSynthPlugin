@@ -126,7 +126,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.${{ matrix-os }}
+        name: FluidSynthPlugin.vst3.${{ matrix.os }}
         path: ./dist
 
     - name: _LS
