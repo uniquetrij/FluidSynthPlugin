@@ -32,23 +32,13 @@ jobs:
     - name: Install APT Dependencies
       if: runner.os == 'Linux'
       shell: bash
-    - run: >
-         sudo apt update 
-         &&
-         apt install -y 
-         fluidsynth 
-         libasound2-dev 
-         libx11-dev
-         libxext-dev 
-         libtiff-dev 
-         libfreetype-dev 
-         libfontconfig1-dev 
-         texlive-latex-base 
-         texlive-fonts-recommended 
-         texlive-fonts-extra 
-         texlive-latex-extra 
-         doxygen
-         graphviz
+      run: |
+        sudo apt update
+        sudo apt install -y fluidsynth graphviz libasound2-dev libx11-dev \
+                            libxext-dev libtiff-dev libfreetype-dev \
+                            libfontconfig1-dev doxygen texlive-latex-base \
+                            texlive-fonts-recommended texlive-fonts-extra \
+                            texlive-latex-extra 
         
     - name: Install JUCE
       shell: bash
@@ -56,7 +46,6 @@ jobs:
         sudo mkdir /Program\ Files
         sudo chmod 777 /Program\ Files -R
         git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
-
     - name: Configure CMake
       run: >
         cmake -B ./build
@@ -64,7 +53,6 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}/buildSetup
-
     - name: Build
       run: cmake --build ./build --config ${{ matrix.build_type }}
 
@@ -116,7 +104,6 @@ jobs:
           rm -rf "$tmpdir" 
         done
         ls ./dist/
-
     - name: Get latest tag or use default
       id: get_tag
       run: |
@@ -137,7 +124,6 @@ jobs:
         new_tag="v$major.$minor.$((patch + 1))"
         echo "Bumped tag: $new_tag"
         echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
-
     - name: Create GitHub Release
       id: release
       uses: softprops/action-gh-release@v2
