@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     outputs:
-      build-os: ${{ steps.variables.outputs.build-os }}
+      matrix: ${{ steps.matrix.outputs.value }}
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
       fail-fast: false
@@ -91,6 +91,12 @@ jobs:
     #   with:
     #     name: FluidSynthPlugin.vst3.${{ matrix.os }}
     #     path: ./_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
+
+    - id: matrix
+      run: |
+        echo "value=[\"os\", \build_type\", \"c_compiler\"]" >> $GITHUB_OUTPUT
+    - run: |
+        echo "${{ steps.matrix.outputs.value }}"
 
     - name: _Touch
       shell: bash
