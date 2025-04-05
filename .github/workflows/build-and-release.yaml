@@ -32,8 +32,9 @@ jobs:
     - name: Install APT Dependencies
       if: runner.os == 'Linux'
       shell: bash
-      run: |
+      run: >
         sudo apt update
+        &&
         sudo apt install -y fluidsynth graphviz libasound2-dev libx11-dev \
                             libxext-dev libtiff-dev libfreetype-dev \
                             libfontconfig1-dev doxygen texlive-latex-base \
@@ -46,6 +47,7 @@ jobs:
         sudo mkdir /Program\ Files
         sudo chmod 777 /Program\ Files -R
         git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
+        
     - name: Configure CMake
       run: >
         cmake -B ./build
