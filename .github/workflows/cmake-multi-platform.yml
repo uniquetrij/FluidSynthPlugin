@@ -22,7 +22,10 @@ jobs:
         build_type: [Release]
         c_compiler: [gcc]
         include:
-          - os: [ubuntu-latest, ubuntu-22.04]
+          - os: ubuntu-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-22.04
             c_compiler: gcc
             cpp_compiler: g++
         # exclude:
