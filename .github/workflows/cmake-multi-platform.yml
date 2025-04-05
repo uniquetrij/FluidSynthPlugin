@@ -84,13 +84,6 @@ jobs:
     - name: Install
       shell: bash
       run: cmake --install ./build --config Release
-
-    # - name: Archive Release
-    #   uses: thedoctor0/zip-release@0.7.5
-    #   with:
-    #     type: 'zip'
-    #     path: './_DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3'
-    #     filename: 'FluidSynthPlugin.vst3.zip'
       
     - name: Upload Build Artifacts
       if: runner.os == 'Linux'
@@ -122,7 +115,14 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
-        path: ./
+        path: ./dist
+
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        path: './dist/FluidSynthPlugin.vst3'
+        filename: 'FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip'
         
     - name: Create GitHub Release
       id: create_release
@@ -133,7 +133,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ./FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
+        files: ./dist/FluidSynthPlugin.vst3.${{ steps.variables.outputs.build-os }}.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
