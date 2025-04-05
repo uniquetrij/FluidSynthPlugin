@@ -42,17 +42,12 @@ jobs:
                             libfontconfig1-dev doxygen texlive-latex-base \
                             texlive-fonts-recommended texlive-fonts-extra \
                             texlive-latex-extra
-
-    - name: Program Files
-      if: runner.os == 'Linux'
+        
+    - name: Install JUCE
       shell: bash
       run: |
         sudo mkdir /Program\ Files
         sudo chmod 777 /Program\ Files -R
-        
-    - name: JUCE
-      shell: bash
-      run: |
         git clone https://github.com/juce-framework/JUCE /Program\ Files/JUCE
 
     - name: Set reusable strings
@@ -82,12 +77,16 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }}
 
+    - name: Install
+      shell: bash
+      run: cmake --install ./build --config Release
+      
     - name: Upload Build Artifacts
       if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.linux
-        path: build/FluidSynthPlugin.vst3
+        name: FluidSynthPlugin.vst3.Linux-x86_64
+        path: _DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
 
   release:
     name: Create GitHub Release
@@ -101,13 +100,8 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.linux
-        path: build/FluidSynthPlugin.vst3
-
-    - name: Zip Build Artifacts
-      run: |
-        cd build
-        zip -r ../FluidSynthPlugin.vst3.linux.zip ./FluidSynthPlugin.vst3
+        name: FluidSynthPlugin.vst3.Linux-x86_64
+        path: ./dist
 
     - name: Create GitHub Release
       id: create_release
@@ -118,7 +112,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: FluidSynthPlugin.vst3.linux.zip
+        files: ./dist/FluidSynthPlugin.vst3.Linux-x86_64
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
