@@ -124,22 +124,23 @@ jobs:
     steps:
       - run: |
           echo "${{ matrix.value }}"
+          echo "${{ matrix.os }}"
 
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      # - name: Checkout Repository
+      #   uses: actions/checkout@v4
   
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: FluidSynthPlugin.vst3.*
-          path: ./dist
+      # - name: Download Build Artifacts
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: FluidSynthPlugin.vst3.*
+      #     path: ./dist
   
-      - name: _LS
-        shell: bash
-        run: |
-          ls .
-          echo '==='
-          ls ./dist
+      # - name: _LS
+      #   shell: bash
+      #   run: |
+      #     ls .
+      #     echo '==='
+      #     ls ./dist
   
       # - name: Archive Release
       #   uses: thedoctor0/zip-release@0.7.5
