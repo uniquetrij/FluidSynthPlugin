@@ -94,7 +94,7 @@ jobs:
 
     - id: matrix
       run: |
-        echo "value=[\"os\", \"build_type\", \"c_compiler\"]" >> $GITHUB_OUTPUT
+        echo "value=[\"os:${{ matrix.os }}\"]" >> $GITHUB_OUTPUT
     - run: |
         echo "${{ steps.matrix.outputs.value }}"
 
