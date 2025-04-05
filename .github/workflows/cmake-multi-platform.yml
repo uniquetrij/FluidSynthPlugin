@@ -89,14 +89,14 @@ jobs:
       with:
         type: 'zip'
         path: _DISTRIBUTION/targetPlatforms/Linux-x86_64/Release/VST3/FluidSynthPlugin.vst3
-        filename: 'FluidSynthPlugin.vst3.Linux-x86_64.zip'
+        filename: 'FluidSynthPlugin.vst3.zip'
       
     - name: Upload Build Artifacts
       if: runner.os == 'Linux'
       uses: actions/upload-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.Linux-x86_64
-        path: ./FluidSynthPlugin.vst3.Linux-x86_64.zip
+        name: FluidSynthPlugin.vst3.${{ matrix.os }}
+        path: ./FluidSynthPlugin.vst3.zip
 
   release:
     name: Create GitHub Release
@@ -110,7 +110,7 @@ jobs:
     - name: Download Build Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: FluidSynthPlugin.vst3.Linux-x86_64.zip
+        name: FluidSynthPlugin.vst3.${{ matrix.os }}.zip
         path: ./
         
     - name: Create GitHub Release
@@ -122,7 +122,7 @@ jobs:
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ./FluidSynthPlugin.vst3.Linux-x86_64.zip
+        files: ./FluidSynthPlugin.vst3.${{ matrix.os }}.zip
 
     - name: Show Release URL
       run: echo "Release created at ${{ steps.create_release.outputs.url }}"
